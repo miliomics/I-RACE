@@ -8,7 +8,7 @@ import sys
 # ---- SETTINGS ----
 CPUS = 24
 
-MIN_COMPLETENESS = 94.0
+MIN_COMPLETENESS = 90.0
 MAX_CONTAMINATION = 5.0
 # ---------------------
 
