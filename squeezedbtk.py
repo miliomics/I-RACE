@@ -98,9 +98,9 @@ def main() -> None:
         # Ensure directory structure exists
         hq_dir = bins_dir / "hq"
         unclassified_dir = hq_dir / "unclassified"
-        genomes_dir = unclassified_dir / "gtdbtk_genomes_dir"
-        out_dir = unclassified_dir / "gtdbtk_results"
-        for d in (hq_dir, unclassified_dir, genomes_dir, out_dir):
+        genomes_dir = base / "gtdbtk_genomes_dir"
+		out_dir = base / "gtdbtk_results"
+        for d in (hq_dir, unclassified_dir, genomes_dir):
             d.mkdir(parents=True, exist_ok=True)
 
         header, rows = read_bintable_header_and_rows(bintable_path)
@@ -156,7 +156,7 @@ def main() -> None:
                 if tax_file.exists():
                     run_cmd(["cp", str(tax_file), str(unclassified_dir)])
                 if fasta_file.exists():
-                    dest = genomes_dir / f"{bin_id}.fna"
+                    dest = genomes_dir / f"{p}_{bin_id}.fna"
                     run_cmd(["cp", str(fasta_file), str(dest)])
                     genomes_added += 1
                 else:
@@ -166,7 +166,9 @@ def main() -> None:
             print(f"[INFO] Project '{p}': no unclassified HQ genomes found; skipping GTDB-Tk.")
             continue
 
-        cmd = [
+    print("[DONE]")
+
+cmd = [
         "gtdbtk", "classify_wf",
         "--genome_dir", str(genomes_dir),
         "--out_dir", str(out_dir),
@@ -174,9 +176,6 @@ def main() -> None:
 	]
 
         run_cmd(cmd)
-
-    print("[DONE]")
-
 
 if __name__ == "__main__":
     main()
