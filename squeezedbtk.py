@@ -100,7 +100,7 @@ def main() -> None:
         unclassified_dir = hq_dir / "unclassified"
         genomes_dir = base / "gtdbtk_genomes_dir"
 		out_dir = base / "gtdbtk_results"
-        for d in (hq_dir, unclassified_dir, genomes_dir):
+        for d in (hq_dir, unclassified_dir, genomes_dir, out_dir):
             d.mkdir(parents=True, exist_ok=True)
 
         header, rows = read_bintable_header_and_rows(bintable_path)
@@ -166,9 +166,7 @@ def main() -> None:
             print(f"[INFO] Project '{p}': no unclassified HQ genomes found; skipping GTDB-Tk.")
             continue
 
-    print("[DONE]")
-
-cmd = [
+    cmd = [
         "gtdbtk", "classify_wf",
         "--genome_dir", str(genomes_dir),
         "--out_dir", str(out_dir),
@@ -176,6 +174,9 @@ cmd = [
 	]
 
         run_cmd(cmd)
+
+	print("[DONE]")
+
 
 if __name__ == "__main__":
     main()
